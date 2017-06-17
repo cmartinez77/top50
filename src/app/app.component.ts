@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'This is a placeholder text until the \'ItunesListService\' is working.... Carry on';
 }
