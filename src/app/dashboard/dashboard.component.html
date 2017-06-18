@@ -1,4 +1,35 @@
-<p>
-  dashboard works!
-</p>
-<button (click)="printList()"> Get List </button>
+<!--USED TO CHECK THE LIST RETRIEVED FROM GET-->
+<!--<button (click)="printList()"> Get List </button>-->
+
+
+<ul class="row align-items-center nav nav-tabs nav-fill " style="text-align:center">
+  <li class="nav-item" *ngFor="let list of results" class="col-4" >    
+    <a class="nav-link " [class.active]="clicked === list.title || activeId === list.id"
+    (click) ="clicked = (clicked === list.title ? null:list.title); onClicked(list.id)">{{list.title}} </a>
+  </li>
+</ul>
+
+<br>
+
+<div class="row align-items-center nav" style="text-align:center">
+  <div id="list.title" *ngFor="let list of results"  class="col-12 "> 
+
+
+    <div *ngIf="activeId == list.id" class="row " style="padding: 5px 0 5px 0">
+      <div  *ngFor="let itunesElement of list.itunesElements" class="col-4 card" >
+        
+        <div class="card-block">
+          <img  src="{{itunesElement.artworkUrl100}}" alt="art work url" class="card-img-top">
+          <h6 class="card-title"> {{itunesElement.name}} </h6>    
+          <div class="card-text"> {{itunesElement.artistName}} </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+

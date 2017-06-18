@@ -5,7 +5,9 @@ import 'rxjs/add/operator/map';
 
 export class itunesList {
   title: string;
-  results: itunesElement;
+  id: string;
+  itunesElements: itunesElement[];
+
 }
 
 export class itunesElement {
@@ -37,36 +39,50 @@ export class DashboardComponent implements OnInit {
 
   urls : string[];
   results: itunesList[];
+  activeId: string;
 
   constructor(private itunesListService: ItunesListService) { 
     this.urls = [];
     this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/ios-apps/new-apps-we-love/10/explicit/json');
-    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/books/top-free/10/explicit/json')
+    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
+    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
+    this.urls.push('https://rss.itunes.apple.com/api/v1/us/ios-apps/new-apps-we-love/10/explicit/json');
+    this.urls.push('https://rss.itunes.apple.com/api/v1/us/books/top-free/10/explicit/json')
 
     this.results =[];
+    this.activeId ="";
   }
 
   ngOnInit() {
 
+    for(let i =0; i < 3; i++)
+    {
+      this.itunesListService.getList(this.urls[i]).subscribe(
+        (res) => {   
+          console.log(res);
+          let list = new itunesList;
 
-    this.itunesListService.getList(this.urls[0]).subscribe(
-      (res) => {   
-        console.log(res);
-        let list = new itunesList;
-        
-        list.results = new itunesElement();
+          list.title = res.feed.title;
+          list.id = res.feed.id;
+          list.itunesElements = res.feed.results;
 
-        list.title = res.feed.title;
-        list.results = <itunesElement>res.feed.results[0];
-        // list.results = res.feed.results;
-        this.results.push(list)
-      },
-      (error) => console.log(error)
-    );
+          if(i == 0){
+            this.activeId = list.id;
+          }
+
+
+          this.results.push(list)
+        },
+        (error) => console.log(error)
+      );
+    }
     
+  }
+
+  onClicked( id)
+  {
+      console.log(id)
+      this.activeId = id;
   }
 
 
