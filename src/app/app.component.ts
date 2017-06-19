@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'This is a placeholder text until the \'ItunesListService\' is working.... Carry on';
+  title = 'Itunes RSS Top 50 Feed';
+  description = 'This application uses 3 RSS feeds from \'rss.itunes.apple.com/en-us\' and displays the feed results(List of 50)'
 }

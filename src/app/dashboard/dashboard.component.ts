@@ -43,10 +43,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(private itunesListService: ItunesListService) { 
     this.urls = [];
+    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/50/explicit/json');
+    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/50/explicit/json');
+    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/books/top-free/50/explicit/json')
     this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    // this.urls.push('https://rss.itunes.apple.com/api/v1/us/music-videos/top-music-videos/10/explicit/json');
-    this.urls.push('https://rss.itunes.apple.com/api/v1/us/ios-apps/new-apps-we-love/10/explicit/json');
+    this.urls.push('https://rss.itunes.apple.com/api/v1/us/ios-apps/top-free/10/explicit/json');
     this.urls.push('https://rss.itunes.apple.com/api/v1/us/books/top-free/10/explicit/json')
 
     this.results =[];
@@ -55,33 +56,32 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
 
-    for(let i =0; i < 3; i++)
-    {
-      this.itunesListService.getList(this.urls[i]).subscribe(
+    
+      this.itunesListService.getList(this.urls).subscribe(
         (res) => {   
-          console.log(res);
-          let list = new itunesList;
-
-          list.title = res.feed.title;
-          list.id = res.feed.id;
-          list.itunesElements = res.feed.results;
-
-          if(i == 0){
-            this.activeId = list.id;
-          }
-
+          // console.log(res);
+          for(let i =0; i < 3; i++)
+          {
+            let list = new itunesList;
+            list.title = res[i].feed.title;
+            list.id = res[i].feed.id;
+            list.itunesElements = res[i].feed.results;
+            if(i == 0){
+              this.activeId = list.id;
+          }        
 
           this.results.push(list)
+          }
         },
         (error) => console.log(error)
       );
-    }
+    
     
   }
 
-  onClicked( id)
+  onClicked(id)
   {
-      console.log(id)
+      /* Function that is used to change the current active list */
       this.activeId = id;
   }
 
