@@ -1,28 +1,28 @@
 
 <ul class="row align-items-center nav nav-tabs nav-fill center-aligned">
-  <li class="nav-item" *ngFor="let list of results" class="col-4" >    
-    <a class="nav-link " [class.active]="activeId === list.id" (click) ="onClicked(list.id)">{{list.title}} </a>
+  <li class="nav-item col-12 col-sm-4" *ngFor="let list of feed">
+    <a class="nav-link " [class.active]="activeId === list.id" (click) ="onClicked(list.id)"> {{list.title}} </a>
   </li>
 </ul>
 
 <br>
 
 <div class="row align-items-center nav center-aligned">
-  <div id="list.title" class="col-12 " *ngFor="let list of results"  > 
+  <div id="list.title" class="col-12 " *ngFor="let list of feed"  >
 
 
     <div *ngIf="activeId == list.id" class="row ">
-      <div class="col-4 card" *ngFor="let itunesElement of list.itunesElements"  >
-        
+      <div class="col-12 col-sm-6 col-md-4 card" *ngFor="let itunesElement of list.itunesElements"  >
+
         <div class="card-block">
-          <img class="card-img-top" src="{{itunesElement.artworkUrl100}}" alt="art work url" >
-          <h6 class="card-title"> {{itunesElement.name}} </h6>    
-          <div class="card-text"> {{itunesElement.artistName}} </div>
+          <img class="card-img-top" src="{{itunesElement['im:image'][2].label}}" alt="art work url" >
+          <h6 class="card-title"> {{itunesElement['im:name'].label}} </h6>
+          <div class="card-text"> {{itunesElement['im:artist'].label}} </div>
         </div>
 
       </div>
     </div>
 
-    
+
   </div>
 </div>

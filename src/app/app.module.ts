@@ -14,8 +14,8 @@ import { ItunesListService } from './itunes-list.service'
   ],
   imports: [
     BrowserModule,
-    HttpModule, //Using Jsonp instead
-    JsonpModule, //Used to get cross-domain request
+    HttpModule, // Using Jsonp instead
+    JsonpModule, // Used to get cross-domain request
     NgbModule.forRoot()
   ],
   providers: [ItunesListService], // Gives access to ItunesListService to all of the app
