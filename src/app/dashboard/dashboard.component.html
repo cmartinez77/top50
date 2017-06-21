@@ -1,7 +1,7 @@
 
 <ul class="row align-items-center nav nav-tabs nav-fill center-aligned">
   <li class="nav-item col-12 col-sm-4" *ngFor="let list of feed">
-    <a class="nav-link " [class.active]="activeId === list.id" (click) ="onClicked(list.id)"> {{list.title}} </a>
+    <a class="nav-link " [class.active]="activeId === list.id" (click) ="onClicked(list.id)">{{list.title}}</a>
   </li>
 </ul>
 

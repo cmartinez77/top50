@@ -1,11 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ItunesListService } from './itunes-list.service';
+import {HttpModule} from '@angular/http';
 
 describe('ItunesListService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ItunesListService]
+      providers: [ItunesListService],
+      imports: [HttpModule]
     });
   });
 

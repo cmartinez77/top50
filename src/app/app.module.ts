@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ItunesListService } from './itunes-list.service'
+import { ItunesListService } from './shared/itunes-list.service'
 
 @NgModule({
   declarations: [
@@ -14,9 +14,9 @@ import { ItunesListService } from './itunes-list.service'
   ],
   imports: [
     BrowserModule,
-    HttpModule, // Using Jsonp instead
+    HttpModule,
     JsonpModule, // Used to get cross-domain request
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
   ],
   providers: [ItunesListService], // Gives access to ItunesListService to all of the app
   bootstrap: [AppComponent]
