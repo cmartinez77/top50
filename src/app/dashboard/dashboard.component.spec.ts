@@ -2,44 +2,39 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpModule} from '@angular/http';
 
 import { DashboardComponent } from './dashboard.component';
-import { ItunesListService } from '../shared/itunes-list.service'
+import { ItunesListService } from '../shared/itunes-list.service';
 import {ItunesList} from '../shared/itunes-list';
-import {observable} from "rxjs/symbol/observable";
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
-describe('DashboardComponent', () => {
+describe('DashboardComponent data initialization and manipulation', () => {
   let component:  DashboardComponent;
-  let fixture:    ComponentFixture<DashboardComponent>;
-  // let spy:        jasmine.Spy;
   let itunesListService: ItunesListService;
+  let data: any[];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DashboardComponent ],
       providers: [ItunesListService],
-      // providers: [{provide: ItunesListService, useClass: ItunesListServiceStub}],
       imports: [HttpModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardComponent);
-    component = fixture.componentInstance;
-    itunesListService = TestBed.get(ItunesListService);
-    // spy = spyOn(itunesListService, 'getFeed');
+    itunesListService = new ItunesListService(null);
+    // fixture = TestBed.createComponent(DashboardComponent);
+    // component = fixture.componentInstance;
+    component = new DashboardComponent(itunesListService);
+    data = [ [
+      { 'itunesLists': {'id': {'label': '1'}, 'title': {'label': 'title1'}, 'entry': [ {'im:name': {'label': 'name1'},
+        'im:artist': {'label': 'artist1'}, 'im:image': [ {'label': '1-1'}, {'label': '1-2'}, {'label': '1-3'}] } ]} },
 
-    fixture.detectChanges();
-    component.feed = [
-    new ItunesList('1', 'title1', [
-      {'im:name': {'label': 'name1'}, 'im:artist': {'label': 'artist1'},
-        'im:image': [ {'label': '1-1'}, {'label': '1-2'}, {'label': '1-3'}]}
-    ]),
-      new ItunesList('2', 'title2', [
-        {'im:name': {'label': 'name2'}, 'im:artist': {'label': 'artist2'},
-          'im:image': [ {'label': '2-1'}, {'label': '2-2'}, {'label': '2-3'}]}
-      ]),
-    ];
+      { 'itunesLists': {'id': {'label': '2'}, 'title': {'label': 'title1'}, 'entry': [ {'im:name': {'label': 'name2'},
+        'im:artist': {'label': 'artist2'}, 'im:image': [ {'label': '2-1'}, {'label': '2-2'}, {'label': '2-3'}] } ]} },
+
+      { 'itunesLists': {'id': {'label': '3'}, 'title': {'label': 'title1'}, 'entry': [ {'im:name': {'label': 'name3'},
+        'im:artist': {'label': 'artist3'}, 'im:image': [ {'label': '3-1'}, {'label': '3-2'}, {'label': '3-3'}] } ]} }
+    ] ]
 
   });
 
@@ -47,19 +42,46 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('div title should `title1`', () => {
-    component.ngOnInit();
-    // spy.calls.any();
-    fixture.detectChanges();
-    const li = fixture.nativeElement.querySelector('ul li a');
-    expect(li.textContent).toBe('title1')
+  it('should have an uninitialized activeId set to ``', () => {
+    expect(component.activeId).toBe('');
   });
 
-  it('div title should `title2`', () => {
-    component.onClicked('2');
-    fixture.detectChanges();
-    const li = fixture.nativeElement.querySelectorAll('ul li a');
-    expect(li[1].textContent).toBe('title2')
+  it('should have an uninitialized itunesLists array set to []', () => {
+    expect(component.itunesLists).toEqual([]);
   });
+
+  it('should return Observables array of 3 objects', () => {
+    spyOn(itunesListService, 'getFeed').and.callFake( () => {
+      return Observable.from( data )
+    });
+
+    component.ngOnInit();
+
+    expect(component.itunesLists.length).toBe(3);
+
+  });
+
+  it('should have `title1` as the title in the first object in the set itunesLists array', () => {
+    spyOn(itunesListService, 'getFeed').and.callFake( () => {
+      return Observable.from( data )
+    });
+
+    component.ngOnInit();
+
+    expect(component.itunesLists[0].title).toBe('title1');
+
+  });
+
+  it('should have activeId set the id of the first object in the set itunesLists array', () => {
+    spyOn(itunesListService, 'getFeed').and.callFake( () => {
+      return Observable.from( data )
+    });
+
+    component.ngOnInit();
+
+    expect(component.activeId).toBe(component.itunesLists[0].id);
+
+  });
+
 
 });

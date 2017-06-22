@@ -4,9 +4,6 @@ import 'rxjs/add/operator/map';
 import { ItunesListService } from '../shared/itunes-list.service'
 import { ItunesList } from '../shared/itunes-list'
 
-class ItunesListServiceStub {
-  getFeed() {};
-}
 
 @Component({
   selector:     'app-dashboard',
@@ -15,11 +12,11 @@ class ItunesListServiceStub {
 })
 export class DashboardComponent implements OnInit {
   // public properties
-  feed:     ItunesList[];
-  activeId: string;
+  itunesLists:  ItunesList[];
+  activeId:     string;
 
   constructor(private itunesListService: ItunesListService) {
-    this.feed = [];
+    this.itunesLists = [];
     this.activeId = '';
   }
 
@@ -47,10 +44,10 @@ export class DashboardComponent implements OnInit {
     // Function that initializes prepares the data for the view
     // -Argument: result of the itunesListService.getList() function (any[])
 
+    // console.log(res);
     for (let i = 0; i < 3; i++) {
       const list = new ItunesList(res[i].feed.id.label, res[i].feed.title.label, res[i].feed.entry);
-
-      this.feed.push(list);
+      this.itunesLists.push(list);
       if (i === 0) {
         this.activeId = list.id;
       }
